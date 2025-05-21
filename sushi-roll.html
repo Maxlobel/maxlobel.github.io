@@ -5,49 +5,90 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Build Your Own Sushi Roll</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .ingredient {
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: all 0.5s ease;
+    }
+    .ingredient.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
 </head>
-<body class="bg-white text-gray-900 font-sans">
-  <div class="min-h-screen flex flex-col items-center justify-center text-center p-8">
+<body class="bg-pink-50 text-gray-900 font-sans">
+  <div class="min-h-screen flex flex-col items-center justify-start text-center p-8">
     <h1 class="text-3xl font-bold mb-4">🍣 Build Your Own Sushi Roll</h1>
-    <form class="w-full max-w-sm space-y-4">
+    <form id="sushiForm" class="w-full max-w-sm space-y-4">
       <div>
         <label class="block mb-1 font-medium">Choose a Base</label>
-        <select class="w-full border border-gray-300 rounded p-2">
-          <option>White Rice</option>
-          <option>Brown Rice</option>
-          <option>Cucumber Wrap</option>
+        <select id="base" class="w-full border border-gray-300 rounded p-2">
+          <option value="🍚 Rice">White Rice</option>
+          <option value="🌾 Brown Rice">Brown Rice</option>
+          <option value="🥒 Cucumber Wrap">Cucumber Wrap</option>
         </select>
       </div>
       <div>
         <label class="block mb-1 font-medium">Choose a Protein</label>
-        <select class="w-full border border-gray-300 rounded p-2">
-          <option>Tuna</option>
-          <option>Salmon</option>
-          <option>Crab</option>
-          <option>Tofu</option>
+        <select id="protein" class="w-full border border-gray-300 rounded p-2">
+          <option value="🐟 Tuna">Tuna</option>
+          <option value="🐠 Salmon">Salmon</option>
+          <option value="🦀 Crab">Crab</option>
+          <option value="🍢 Tofu">Tofu</option>
         </select>
       </div>
       <div>
         <label class="block mb-1 font-medium">Choose Veggies</label>
-        <select multiple class="w-full border border-gray-300 rounded p-2 h-24">
-          <option>Avocado</option>
-          <option>Cucumber</option>
-          <option>Carrot</option>
-          <option>Scallions</option>
+        <select id="veggies" multiple class="w-full border border-gray-300 rounded p-2 h-24">
+          <option value="🥑 Avocado">Avocado</option>
+          <option value="🥒 Cucumber">Cucumber</option>
+          <option value="🥕 Carrot">Carrot</option>
+          <option value="🧅 Scallions">Scallions</option>
         </select>
       </div>
       <div>
         <label class="block mb-1 font-medium">Choose a Sauce</label>
-        <select class="w-full border border-gray-300 rounded p-2">
-          <option>Spicy Mayo</option>
-          <option>Eel Sauce</option>
-          <option>Soy Sauce</option>
-          <option>Ponzu</option>
+        <select id="sauce" class="w-full border border-gray-300 rounded p-2">
+          <option value="🌶 Spicy Mayo">Spicy Mayo</option>
+          <option value="🍯 Eel Sauce">Eel Sauce</option>
+          <option value="🥣 Soy Sauce">Soy Sauce</option>
+          <option value="🍋 Ponzu">Ponzu</option>
         </select>
       </div>
-      <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Roll It!</button>
+      <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">Roll It!</button>
     </form>
-    <a href="index.html" class="mt-8 text-blue-600 underline">← back to homepage</a>
+
+    <div id="sushiDisplay" class="mt-10 space-y-2 text-4xl"></div>
+
+    <a href="index.html" class="mt-12 text-blue-600 underline">← back to homepage</a>
   </div>
+
+  <script>
+    const form = document.getElementById('sushiForm');
+    const display = document.getElementById('sushiDisplay');
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      display.innerHTML = '';
+
+      const base = document.getElementById('base').value;
+      const protein = document.getElementById('protein').value;
+      const veggies = Array.from(document.getElementById('veggies').selectedOptions).map(v => v.value);
+      const sauce = document.getElementById('sauce').value;
+
+      const ingredients = [base, protein, ...veggies, sauce];
+
+      ingredients.forEach((item, i) => {
+        const el = document.createElement('div');
+        el.className = 'ingredient';
+        el.textContent = item;
+        display.appendChild(el);
+        setTimeout(() => {
+          el.classList.add('show');
+        }, i * 300);
+      });
+    });
+  </script>
 </body>
 </html>
