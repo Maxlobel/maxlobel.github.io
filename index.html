@@ -62,8 +62,8 @@
         <rect x="50" y="100" width="20" height="25" rx="3" fill="#666"/>
       </g>
       <g id="string-group" transform="rotate(0 60 125)">
-        <path id="pull-string" d="M60 125 Q60 170 60 215" stroke="#999" stroke-width="2" fill="none"/>
-        <circle id="pull-knob" cx="60" cy="215" r="5" fill="#ccc"/>
+        <path id="pull-string" d="M60 125 Q60 160 60 200" stroke="#999" stroke-width="2" fill="none"/>
+        <circle id="pull-knob" cx="60" cy="200" r="5" fill="#ccc"/>
       </g>
     </svg>
     <p class="text-white text-sm absolute mt-60">Pull to begin</p>
@@ -87,9 +87,9 @@
 
     window.addEventListener('mousemove', e => {
       if (!isDragging) return;
-      dragY = Math.min(Math.max(e.clientY - startY, 0), 100);
-      document.getElementById('pull-string').setAttribute('d', `M60 125 Q60 ${170 + dragY / 2} 60 ${215 + dragY}`);
-      knob.setAttribute('cy', 215 + dragY);
+      dragY = Math.min(Math.max(e.clientY - startY, 0), 80);
+      document.getElementById('pull-string').setAttribute('d', `M60 125 Q60 ${160 + dragY / 2} 60 ${200 + dragY}`);
+      knob.setAttribute('cy', 200 + dragY);
     });
 
     window.addEventListener('mouseup', () => {
@@ -99,8 +99,8 @@
         glow.style.opacity = 1;
         intro.classList.add('fade-out');
       } else {
-        document.getElementById('pull-string').setAttribute('d', `M60 125 Q60 170 60 215`);
-        knob.setAttribute('cy', 215);
+        document.getElementById('pull-string').setAttribute('d', `M60 125 Q60 160 60 200`);
+        knob.setAttribute('cy', 200);
       }
     });
   </script>
