@@ -5,16 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Max Lobel</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      #bulb.on circle {
+        fill: #fef08a;
+      }
+      #intro-screen.fade-out {
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 1s ease-out;
+      }
+    </style>
   </head>
   <body class="bg-gray-900 text-white font-sans">
-    
-<!-- Header -->
-<header class="p-6 text-center border-b border-gray-700">
-  <h1 class="text-4xl font-bold">Max Lobel</h1>
-  <p class="text-gray-400 mt-2">Exploring the intersection of data, technology, and creativity</p>
-</header>
 
-    <!-- About -->
+    <!-- Intro Lightbulb Screen -->
+    <div id="intro-screen" class="fixed inset-0 flex items-center justify-center bg-gray-900 z-50">
+      <div id="bulb-container" class="flex flex-col items-center cursor-pointer" onclick="turnOnBulb()">
+        <svg id="bulb" width="100" height="150" viewBox="0 0 100 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="40" r="30" fill="#222" stroke="#AAA" stroke-width="4"/>
+          <rect x="45" y="70" width="10" height="20" fill="#666"/>
+          <line x1="50" y1="90" x2="50" y2="140" stroke="#888" stroke-width="2"/>
+        </svg>
+        <p class="text-white mt-2 text-sm">Pull to begin</p>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <header class="p-6 text-center border-b border-gray-700">
+      <h1 class="text-4xl font-bold">Max Lobel</h1>
+      <p class="text-gray-400 mt-2">Exploring the intersection of data, technology, and creativity</p>
+    </header>
+
     <section class="p-6 max-w-3xl mx-auto">
       <h2 class="text-2xl font-semibold mb-2">About Me</h2>
       <p class="text-gray-300">
@@ -22,22 +43,24 @@
       </p>
     </section>
 
-    <!-- Projects -->
     <section class="p-6 max-w-3xl mx-auto">
       <h2 class="text-2xl font-semibold mb-2">Projects</h2>
       <ul class="space-y-4">
-        <li class="bg-gray-800 p-4 rounded-lg">
-          <h3 class="text-xl font-semibold">AI Agent (Coming Soon)</h3>
-          <p class="text-gray-400 text-sm">An agent that builds and ships projects automatically. Will live here.</p>
+        <li>
+          <a href="ai-agent.html" class="block bg-gray-800 p-4 rounded-lg hover:bg-gray-700 transition">
+            <h3 class="text-xl font-semibold">AI Agent (Coming Soon)</h3>
+            <p class="text-gray-400 text-sm">An agent that builds and ships projects automatically. Will live here.</p>
+          </a>
         </li>
-        <li class="bg-gray-800 p-4 rounded-lg">
-          <h3 class="text-xl font-semibold">Sourdough Tracker</h3>
-          <p class="text-gray-400 text-sm">Helps me monitor my sourdough starter and bake schedule. Built in Jupyter + JS.</p>
+        <li>
+          <a href="sourdough.html" class="block bg-gray-800 p-4 rounded-lg hover:bg-gray-700 transition">
+            <h3 class="text-xl font-semibold">Sourdough Tracker</h3>
+            <p class="text-gray-400 text-sm">Helps me monitor my sourdough starter and bake schedule. Built in Jupyter + JS.</p>
+          </a>
         </li>
       </ul>
     </section>
 
-    <!-- Contact -->
     <section class="p-6 max-w-3xl mx-auto">
       <h2 class="text-2xl font-semibold mb-2">Contact</h2>
       <p class="text-gray-300">
@@ -45,9 +68,20 @@
       </p>
     </section>
 
-    <!-- Footer -->
     <footer class="text-center text-gray-600 text-sm p-4 border-t border-gray-700 mt-8">
       © 2025 Max Lobel
     </footer>
+
+    <!-- Bulb Interaction Script -->
+    <script>
+      function turnOnBulb() {
+        const bulb = document.getElementById('bulb');
+        const intro = document.getElementById('intro-screen');
+        bulb.classList.add('on');
+        setTimeout(() => {
+          intro.classList.add('fade-out');
+        }, 1000);
+      }
+    </script>
   </body>
 </html>
