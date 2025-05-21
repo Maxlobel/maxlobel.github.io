@@ -28,6 +28,16 @@
     .on #glow-circle {
       opacity: 1;
     }
+    @keyframes bounce {
+      0% { transform: translateY(0); }
+      30% { transform: translateY(8px); }
+      50% { transform: translateY(-6px); }
+      70% { transform: translateY(4px); }
+      100% { transform: translateY(0); }
+    }
+    .bounce {
+      animation: bounce 0.6s ease;
+    }
   </style>
 </head>
 <body class="bg-gray-900 text-white font-sans">
@@ -100,12 +110,18 @@
     © 2025 Max Lobel
   </footer>
 
+  <!-- Click Sound -->
+  <audio id="click-sound" preload="auto">
+    <source src="https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3" type="audio/mpeg" />
+  </audio>
+
   <!-- Script -->
   <script>
     const bulb = document.getElementById('bulb-svg');
     const pullString = document.getElementById('pull-string');
     const knob = document.getElementById('pull-knob');
     const intro = document.getElementById('intro-screen');
+    const clickSound = document.getElementById('click-sound');
 
     let isDragging = false;
     let startY = 0;
@@ -129,6 +145,8 @@
 
       if (dragY > 40) {
         bulb.classList.add('on');
+        clickSound.play();
+        knob.classList.add('bounce');
         setTimeout(() => {
           intro.classList.add('fade-out');
         }, 600);
@@ -136,7 +154,10 @@
         // reset string
         pullString.setAttribute('d', `M60 125 Q60 140 60 160`);
         knob.setAttribute('cy', 160);
+        knob.classList.add('bounce');
       }
+
+      setTimeout(() => knob.classList.remove('bounce'), 700);
     });
   </script>
 </body>
