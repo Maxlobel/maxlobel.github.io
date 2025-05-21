@@ -77,7 +77,7 @@
         <line x1="70" y1="60" x2="60" y2="90" stroke="#ccc" stroke-width="2"/>
         <rect x="50" y="100" width="20" height="25" rx="3" fill="#666"/>
       </g>
-      <g id="string-group" transform="rotate(0 60 125)">
+      <g id="string-group" class="swing" transform="rotate(0 60 125)">
         <path id="pull-string" d="M60 125 Q60 160 60 200" stroke="#999" stroke-width="2" fill="none"/>
         <circle id="pull-knob" cx="60" cy="200" r="5" fill="#ccc"/>
       </g>
@@ -129,7 +129,6 @@
   </main>
 
   <script>
-    const stringGroup = document.getElementById('string-group');
     const knob = document.getElementById('pull-knob');
     const intro = document.getElementById('intro-screen');
     const glow = document.getElementById('glow-circle');
@@ -139,20 +138,19 @@
     let startY = 0;
     let dragY = 0;
 
-    knob.addEventListener('mousedown', e => {
-      e.preventDefault();
+    function startDrag(y) {
       isDragging = true;
-      startY = e.clientY;
-    });
+      startY = y;
+    }
 
-    window.addEventListener('mousemove', e => {
+    function drag(y) {
       if (!isDragging) return;
-      dragY = Math.min(Math.max(e.clientY - startY, 0), 80);
+      dragY = Math.min(Math.max(y - startY, 0), 80);
       document.getElementById('pull-string').setAttribute('d', `M60 125 Q60 ${160 + dragY / 2} 60 ${200 + dragY}`);
       knob.setAttribute('cy', 200 + dragY);
-    });
+    }
 
-    window.addEventListener('mouseup', () => {
+    function endDrag() {
       if (!isDragging) return;
       isDragging = false;
       if (dragY > 40) {
@@ -163,7 +161,15 @@
         document.getElementById('pull-string').setAttribute('d', `M60 125 Q60 160 60 200`);
         knob.setAttribute('cy', 200);
       }
-    });
+    }
+
+    knob.addEventListener('mousedown', e => startDrag(e.clientY));
+    window.addEventListener('mousemove', e => drag(e.clientY));
+    window.addEventListener('mouseup', endDrag);
+
+    knob.addEventListener('touchstart', e => startDrag(e.touches[0].clientY));
+    window.addEventListener('touchmove', e => drag(e.touches[0].clientY));
+    window.addEventListener('touchend', endDrag);
   </script>
 </body>
 </html>
