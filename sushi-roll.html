@@ -15,6 +15,42 @@
       opacity: 1;
       transform: translateY(0);
     }
+    .roll-wrap {
+      background-color: #2e7d32;
+      border-radius: 0.25rem;
+      height: 50px;
+      width: 100px;
+      margin: 0 auto;
+      transition: all 0.5s ease;
+    }
+    .roll-wrap.rolled {
+      height: 60px;
+      border-radius: 30px;
+      width: 100px;
+    }
+    .sushi-piece {
+      width: 50px;
+      height: 50px;
+      background-color: #fff;
+      border: 2px solid #2e7d32;
+      border-radius: 50%;
+      margin: 0 5px;
+      display: inline-block;
+      position: relative;
+    }
+    .sauce-drizzle {
+      width: 100%;
+      height: 8px;
+      background: radial-gradient(circle, #d97706 30%, transparent 70%);
+      background-size: 20px 8px;
+      background-repeat: repeat-x;
+      animation: drizzle 1s ease forwards;
+      margin-top: 10px;
+    }
+    @keyframes drizzle {
+      0% { transform: scaleX(0); opacity: 0; }
+      100% { transform: scaleX(1); opacity: 1; }
+    }
   </style>
 </head>
 <body class="bg-pink-50 text-gray-900 font-sans">
@@ -24,42 +60,42 @@
       <div>
         <label class="block mb-1 font-medium">Choose a Base</label>
         <select id="base" class="w-full border border-gray-300 rounded p-2">
-          <option value="🍚 Rice">White Rice</option>
-          <option value="🌾 Brown Rice">Brown Rice</option>
-          <option value="🥒 Cucumber Wrap">Cucumber Wrap</option>
+          <option value="Rice">White Rice</option>
+          <option value="Brown Rice">Brown Rice</option>
+          <option value="Cucumber Wrap">Cucumber Wrap</option>
         </select>
       </div>
       <div>
         <label class="block mb-1 font-medium">Choose a Protein</label>
         <select id="protein" class="w-full border border-gray-300 rounded p-2">
-          <option value="🐟 Tuna">Tuna</option>
-          <option value="🐠 Salmon">Salmon</option>
-          <option value="🦀 Crab">Crab</option>
-          <option value="🍢 Tofu">Tofu</option>
+          <option value="Tuna">Tuna</option>
+          <option value="Salmon">Salmon</option>
+          <option value="Crab">Crab</option>
+          <option value="Tofu">Tofu</option>
         </select>
       </div>
       <div>
         <label class="block mb-1 font-medium">Choose Veggies</label>
         <select id="veggies" multiple class="w-full border border-gray-300 rounded p-2 h-24">
-          <option value="🥑 Avocado">Avocado</option>
-          <option value="🥒 Cucumber">Cucumber</option>
-          <option value="🥕 Carrot">Carrot</option>
-          <option value="🧅 Scallions">Scallions</option>
+          <option value="Avocado">Avocado</option>
+          <option value="Cucumber">Cucumber</option>
+          <option value="Carrot">Carrot</option>
+          <option value="Scallions">Scallions</option>
         </select>
       </div>
       <div>
         <label class="block mb-1 font-medium">Choose a Sauce</label>
         <select id="sauce" class="w-full border border-gray-300 rounded p-2">
-          <option value="🌶 Spicy Mayo">Spicy Mayo</option>
-          <option value="🍯 Eel Sauce">Eel Sauce</option>
-          <option value="🥣 Soy Sauce">Soy Sauce</option>
-          <option value="🍋 Ponzu">Ponzu</option>
+          <option value="Spicy Mayo">Spicy Mayo</option>
+          <option value="Eel Sauce">Eel Sauce</option>
+          <option value="Soy Sauce">Soy Sauce</option>
+          <option value="Ponzu">Ponzu</option>
         </select>
       </div>
       <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">Roll It!</button>
     </form>
 
-    <div id="sushiDisplay" class="mt-10 space-y-2 text-4xl"></div>
+    <div id="sushiDisplay" class="mt-10 space-y-4 text-center"></div>
 
     <a href="index.html" class="mt-12 text-blue-600 underline">← back to homepage</a>
   </div>
@@ -77,7 +113,10 @@
       const veggies = Array.from(document.getElementById('veggies').selectedOptions).map(v => v.value);
       const sauce = document.getElementById('sauce').value;
 
-      const ingredients = [base, protein, ...veggies, sauce];
+      const ingredients = [base, protein, ...veggies];
+      const showDelay = 300;
+      const wrapDelay = ingredients.length * showDelay + 300;
+      const cutDelay = wrapDelay + 800;
 
       ingredients.forEach((item, i) => {
         const el = document.createElement('div');
@@ -86,8 +125,33 @@
         display.appendChild(el);
         setTimeout(() => {
           el.classList.add('show');
-        }, i * 300);
+        }, i * showDelay);
       });
+
+      setTimeout(() => {
+        const roll = document.createElement('div');
+        roll.className = 'roll-wrap mt-4';
+        display.appendChild(roll);
+        setTimeout(() => {
+          roll.classList.add('rolled');
+        }, 100);
+      }, wrapDelay);
+
+      setTimeout(() => {
+        display.innerHTML = '';
+        const sushiRow = document.createElement('div');
+        sushiRow.className = 'flex justify-center items-center';
+        for (let i = 0; i < 5; i++) {
+          const piece = document.createElement('div');
+          piece.className = 'sushi-piece';
+          sushiRow.appendChild(piece);
+        }
+        display.appendChild(sushiRow);
+
+        const drizzle = document.createElement('div');
+        drizzle.className = 'sauce-drizzle';
+        display.appendChild(drizzle);
+      }, cutDelay);
     });
   </script>
 </body>
