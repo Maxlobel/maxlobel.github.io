@@ -1,36 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Max Lobel</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    @keyframes bulb-bounce {
-  0% { transform: translateY(-8px); }
-  30% { transform: translateY(5px); }
-  50% { transform: translateY(-3px); }
-  70% { transform: translateY(2px); }
-  100% { transform: translateY(0); }
-}
-
-@keyframes string-swing {
-  0% { transform: rotate(0deg); transform-origin: top center; }
-  20% { transform: rotate(6deg); }
-  40% { transform: rotate(-4deg); }
-  60% { transform: rotate(3deg); }
-  80% { transform: rotate(-2deg); }
-  100% { transform: rotate(0deg); }
-}
-
-#bulb-container {
-  animation: bulb-bounce 1s ease-out;
-}
-
-#pull-string {
-  animation: string-swing 1.2s ease-out;
-}
-
     html, body {
       margin: 0;
       padding: 0;
@@ -38,7 +13,7 @@
     }
     #intro-screen {
       background-color: #0f172a;
-      transition: opacity 1s ease-out, background-color 1.5s ease;
+      transition: opacity 1s ease-out;
       overflow: hidden;
       touch-action: none;
     }
@@ -46,39 +21,31 @@
       opacity: 0;
       pointer-events: none;
     }
-    #glow-circle {
-      opacity: 0;
-      transition: opacity 0.5s ease;
-    }
-    .on #glow-circle {
-      opacity: 1;
-      animation: pulse 3s ease-in-out infinite;
-    }
     @keyframes bounce {
-      0% { transform: translateY(0); }
-      30% { transform: translateY(8px); }
-      50% { transform: translateY(-6px); }
-      70% { transform: translateY(4px); }
+      0% { transform: translateY(-8px); }
+      30% { transform: translateY(5px); }
+      50% { transform: translateY(-3px); }
+      70% { transform: translateY(2px); }
       100% { transform: translateY(0); }
     }
-    .bounce {
-      animation: bounce 0.6s ease;
+    @keyframes swing {
+      0% { transform: rotate(0deg); }
+      20% { transform: rotate(6deg); }
+      40% { transform: rotate(-4deg); }
+      60% { transform: rotate(3deg); }
+      80% { transform: rotate(-2deg); }
+      100% { transform: rotate(0deg); }
     }
-    @keyframes pulse {
-      0%, 100% { filter: drop-shadow(0 0 8px #fef08a); }
-      50% { filter: drop-shadow(0 0 16px #fef08a); }
+    #bulb-container {
+      animation: bounce 1.2s ease-out;
     }
-    .light-text {
-      transition: text-shadow 1s ease;
-    }
-    .lit {
-      text-shadow: 0 0 20px #fef08a;
+    #string-group {
+      animation: swing 1.5s ease-out;
+      transform-origin: 60px 125px;
     }
   </style>
 </head>
 <body class="bg-gray-900 text-white font-sans">
-
-  <!-- Intro Screen -->
   <div id="intro-screen" class="fixed inset-0 flex items-center justify-center z-50">
     <svg id="bulb-svg" width="200" height="300" viewBox="0 0 120 300" xmlns="http://www.w3.org/2000/svg" class="cursor-pointer">
       <defs>
@@ -87,158 +54,19 @@
           <stop offset="100%" stop-color="#fef08a" stop-opacity="0"/>
         </radialGradient>
       </defs>
-      <circle id="glow-circle" cx="60" cy="60" r="60" fill="url(#bulbGlow)" />
-      <ellipse cx="60" cy="60" rx="30" ry="40" fill="#222" stroke="#ccc" stroke-width="4" id="bulb-light"/>
-      <line x1="50" y1="60" x2="60" y2="90" stroke="#ccc" stroke-width="2"/>
-      <line x1="70" y1="60" x2="60" y2="90" stroke="#ccc" stroke-width="2"/>
-      <rect x="50" y="100" width="20" height="25" rx="3" fill="#666"/>
-      <path id="pull-string" d="M60 125 Q60 140 60 160" stroke="#999" stroke-width="2" fill="none"/>
-      <circle id="pull-knob" cx="60" cy="160" r="5" fill="#ccc"/>
-      <circle id="pull-hitbox" cx="60" cy="160" r="25" fill="transparent" pointer-events="all"/>
+      <circle id="glow-circle" cx="60" cy="60" r="60" fill="url(#bulbGlow)" style="opacity:0" />
+      <g id="bulb-container">
+        <ellipse cx="60" cy="60" rx="30" ry="40" fill="#222" stroke="#ccc" stroke-width="4"/>
+        <line x1="50" y1="60" x2="60" y2="90" stroke="#ccc" stroke-width="2"/>
+        <line x1="70" y1="60" x2="60" y2="90" stroke="#ccc" stroke-width="2"/>
+        <rect x="50" y="100" width="20" height="25" rx="3" fill="#666"/>
+      </g>
+      <g id="string-group" transform="rotate(0 60 125)">
+        <path id="pull-string" d="M60 125 Q60 140 60 160" stroke="#999" stroke-width="2" fill="none"/>
+        <circle id="pull-knob" cx="60" cy="160" r="5" fill="#ccc"/>
+      </g>
     </svg>
     <p class="text-white text-sm absolute mt-52">Pull to begin</p>
   </div>
-
-  <!-- Main Content -->
-  <main id="main-content" class="overflow-auto">
-    <header class="p-6 text-center border-b border-gray-700">
-      <h1 class="text-4xl font-bold light-text" id="lit-text">Max Lobel</h1>
-      <p class="text-gray-400 mt-2 light-text">Exploring the intersection of data, technology, and creativity</p>
-    </header>
-    <section class="p-6 max-w-3xl mx-auto">
-      <h2 class="text-2xl font-semibold mb-2">About Me</h2>
-      <p class="text-gray-300">
-        I'm a data analyst, creative technologist, and builder of tools that do the work for you. This site is my playground for projects, experiments, and weird ideas — some of them powered by AI.
-      </p>
-    </section>
-    <section class="p-6 max-w-3xl mx-auto">
-      <h2 class="text-2xl font-semibold mb-2">Projects</h2>
-      <ul class="space-y-4">
-        <li>
-          <a href="ai-agent.html" class="..."> <!-- keep your styling -->
-            <h3 class="text-xl font-semibold">AI Agent</h3>
-            <p class="text-gray-400 text-sm">An agent that builds and ships projects automatically.</p>
-        </a>
-
-          <a href="sushi-roll.html" class="..."> <!-- updated file name -->
-            <h3 class="text-xl font-semibold">Build a Sushi Roll</h3>
-            <p class="text-gray-400 text-sm">Customize your dream sushi roll from scratch.</p>
-        </a>
-
-        </li>
-      </ul>
-    <section class="p-6 max-w-3xl mx-auto">
-  <h2 class="text-2xl font-semibold mb-2">Projects</h2>
-  <ul class="space-y-4">
-    <li>
-      <a href="ai-agent.html" class="block bg-gray-800 p-4 rounded-lg hover:bg-gray-700 transition shadow-md hover:shadow-xl">
-        <h3 class="text-xl font-semibold">AI Agent</h3>
-        <p class="text-gray-400 text-sm">An agent that builds and ships projects automatically.</p>
-      </a>
-    </li>
-    <li>
-      <a href="sushi-roll.html" class="block bg-gray-800 p-4 rounded-lg hover:bg-gray-700 transition shadow-md hover:shadow-xl">
-        <h3 class="text-xl font-semibold">Build a Sushi Roll</h3>
-        <p class="text-gray-400 text-sm">Customize your dream sushi roll from scratch.</p>
-      </a>
-    </li>
-  </ul>
-</section>
-
-    <footer class="text-center text-gray-600 text-sm p-4 border-t border-gray-700 mt-8">
-      © 2025 Max Lobel
-    </footer>
-  </main>
-
-  <!-- Click + Hum Sounds -->
-  <audio id="click-sound" preload="auto">
-    <source src="https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3" type="audio/mpeg" />
-  </audio>
-  <audio id="hum-sound" loop preload="auto">
-    <source src="https://cdn.pixabay.com/audio/2023/01/29/audio_4e46b2489a.mp3" type="audio/mpeg" />
-  </audio>
-
-  <script>
-    const bulb = document.getElementById('bulb-svg');
-    const pullString = document.getElementById('pull-string');
-    const knob = document.getElementById('pull-knob');
-    const hitbox = document.getElementById('pull-hitbox');
-    const intro = document.getElementById('intro-screen');
-    const glow = document.getElementById('glow-circle');
-    const clickSound = document.getElementById('click-sound');
-    const humSound = document.getElementById('hum-sound');
-    const litText = document.querySelectorAll('.light-text');
-
-    let isDragging = false;
-    let startY = 0;
-    let dragY = 0;
-
-    hitbox.addEventListener('mousedown', e => {
-      e.preventDefault();
-      isDragging = true;
-      startY = e.clientY;
-    });
-    window.addEventListener('mousemove', e => {
-      if (!isDragging) return;
-      dragY = Math.min(Math.max(e.clientY - startY, 0), 80);
-      pullString.setAttribute('d', `M60 125 Q60 ${140 + dragY / 2} 60 ${160 + dragY}`);
-      knob.setAttribute('cy', 160 + dragY);
-      hitbox.setAttribute('cy', 160 + dragY);
-    });
-    window.addEventListener('mouseup', release);
-    hitbox.addEventListener('touchstart', e => {
-      isDragging = true;
-      startY = e.touches[0].clientY;
-    });
-    window.addEventListener('touchmove', e => {
-      if (!isDragging) return;
-      dragY = Math.min(Math.max(e.touches[0].clientY - startY, 0), 80);
-      pullString.setAttribute('d', `M60 125 Q60 ${140 + dragY / 2} 60 ${160 + dragY}`);
-      knob.setAttribute('cy', 160 + dragY);
-      hitbox.setAttribute('cy', 160 + dragY);
-    });
-    window.addEventListener('touchend', release);
-
-    function release() {
-      if (!isDragging) return;
-      isDragging = false;
-
-      if (dragY > 40) {
-        bulb.classList.add('on');
-        glow.style.opacity = 1;
-        clickSound.play();
-        humSound.volume = 0.2;
-        humSound.play();
-        if (navigator.vibrate) navigator.vibrate(200);
-        flickerBulb();
-        intro.style.backgroundColor = '#fef3c7';
-        litText.forEach(el => el.classList.add('lit'));
-        setTimeout(() => {
-          intro.classList.add('fade-out');
-          document.body.style.overflow = 'auto';
-        }, 1800);
-      } else {
-        pullString.setAttribute('d', `M60 125 Q60 140 60 160`);
-        knob.setAttribute('cy', 160);
-        hitbox.setAttribute('cy', 160);
-        knob.classList.add('bounce');
-      }
-      setTimeout(() => knob.classList.remove('bounce'), 700);
-    }
-
-    function flickerBulb() {
-      const times = Math.floor(Math.random() * 2) + 3;
-      let delay = 0;
-      for (let i = 0; i < times; i++) {
-        setTimeout(() => {
-          glow.style.opacity = 0.3;
-          setTimeout(() => {
-            glow.style.opacity = 1;
-          }, 100);
-        }, delay);
-        delay += 150;
-      }
-    }
-  </script>
 </body>
 </html>
