@@ -28,9 +28,6 @@
       opacity: 0;
       transition: opacity 0.5s ease;
     }
-    .on #glow-circle {
-      opacity: 1;
-    }
     @keyframes bounce {
       0% { transform: translateY(0); }
       30% { transform: translateY(8px); }
@@ -56,13 +53,21 @@
       </defs>
 
       <!-- Glow -->
-      <circle id="glow-circle" cx="60" cy="60" r="60" fill="url(#bulbGlow)"/>
+      <circle id="glow-circle" cx="60" cy="60" r="60" fill="url(#bulbGlow)" />
+
+      <!-- Bulb -->
       <ellipse cx="60" cy="60" rx="30" ry="40" fill="#222" stroke="#ccc" stroke-width="4" id="bulb-light"/>
       <line x1="50" y1="60" x2="60" y2="90" stroke="#ccc" stroke-width="2"/>
       <line x1="70" y1="60" x2="60" y2="90" stroke="#ccc" stroke-width="2"/>
       <rect x="50" y="100" width="20" height="25" rx="3" fill="#666"/>
+
+      <!-- String -->
       <path id="pull-string" d="M60 125 Q60 140 60 160" stroke="#999" stroke-width="2" fill="none"/>
+
+      <!-- Visual Knob -->
       <circle id="pull-knob" cx="60" cy="160" r="5" fill="#ccc"/>
+      <!-- Larger Invisible Hitbox -->
+      <circle id="pull-hitbox" cx="60" cy="160" r="25" fill="transparent" pointer-events="all"/>
     </svg>
     <p class="text-white text-sm absolute mt-52">Pull to begin</p>
   </div>
@@ -81,103 +86,4 @@
       </p>
     </section>
 
-    <section class="p-6 max-w-3xl mx-auto">
-      <h2 class="text-2xl font-semibold mb-2">Projects</h2>
-      <ul class="space-y-4">
-        <li>
-          <a href="ai-agent.html" class="block bg-gray-800 p-4 rounded-lg hover:bg-gray-700 transition">
-            <h3 class="text-xl font-semibold">AI Agent (Coming Soon)</h3>
-            <p class="text-gray-400 text-sm">An agent that builds and ships projects automatically. Will live here.</p>
-          </a>
-        </li>
-        <li>
-          <a href="sourdough.html" class="block bg-gray-800 p-4 rounded-lg hover:bg-gray-700 transition">
-            <h3 class="text-xl font-semibold">Sourdough Tracker</h3>
-            <p class="text-gray-400 text-sm">Helps me monitor my sourdough starter and bake schedule. Built in Jupyter + JS.</p>
-          </a>
-        </li>
-      </ul>
-    </section>
-
-    <section class="p-6 max-w-3xl mx-auto">
-      <h2 class="text-2xl font-semibold mb-2">Contact</h2>
-      <p class="text-gray-300">
-        Find me on <a href="https://www.linkedin.com/in/maxlobel" class="text-blue-400 underline" target="_blank">LinkedIn</a>.
-      </p>
-    </section>
-
-    <footer class="text-center text-gray-600 text-sm p-4 border-t border-gray-700 mt-8">
-      © 2025 Max Lobel
-    </footer>
-  </main>
-
-  <!-- Click Sound -->
-  <audio id="click-sound" preload="auto">
-    <source src="https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3" type="audio/mpeg" />
-  </audio>
-
-  <script>
-    const bulb = document.getElementById('bulb-svg');
-    const pullString = document.getElementById('pull-string');
-    const knob = document.getElementById('pull-knob');
-    const intro = document.getElementById('intro-screen');
-    const clickSound = document.getElementById('click-sound');
-
-    let isDragging = false;
-    let startY = 0;
-    let dragY = 0;
-
-    // Mouse events
-    knob.addEventListener('mousedown', e => {
-      e.preventDefault();
-      isDragging = true;
-      startY = e.clientY;
-    });
-
-    window.addEventListener('mousemove', e => {
-      if (!isDragging) return;
-      dragY = Math.min(Math.max(e.clientY - startY, 0), 80);
-      pullString.setAttribute('d', `M60 125 Q60 ${140 + dragY / 2} 60 ${160 + dragY}`);
-      knob.setAttribute('cy', 160 + dragY);
-    });
-
-    window.addEventListener('mouseup', release);
-
-    // Touch events for mobile
-    knob.addEventListener('touchstart', e => {
-      isDragging = true;
-      startY = e.touches[0].clientY;
-    });
-
-    window.addEventListener('touchmove', e => {
-      if (!isDragging) return;
-      dragY = Math.min(Math.max(e.touches[0].clientY - startY, 0), 80);
-      pullString.setAttribute('d', `M60 125 Q60 ${140 + dragY / 2} 60 ${160 + dragY}`);
-      knob.setAttribute('cy', 160 + dragY);
-    });
-
-    window.addEventListener('touchend', release);
-
-    function release() {
-      if (!isDragging) return;
-      isDragging = false;
-
-      if (dragY > 40) {
-        bulb.classList.add('on');
-        clickSound.play();
-        knob.classList.add('bounce');
-        setTimeout(() => {
-          intro.classList.add('fade-out');
-          document.body.style.overflow = 'auto';
-        }, 600);
-      } else {
-        pullString.setAttribute('d', `M60 125 Q60 140 60 160`);
-        knob.setAttribute('cy', 160);
-        knob.classList.add('bounce');
-      }
-
-      setTimeout(() => knob.classList.remove('bounce'), 700);
-    }
-  </script>
-</body>
-</html>
+    <section class="p-6 max-w-3xl mx-auto
