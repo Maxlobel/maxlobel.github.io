@@ -86,7 +86,7 @@
       </g>
       <g id="string-group" class="swing" transform="rotate(0 60 125)">
         <path id="pull-string" d="M60 125 Q60 160 60 200" stroke="#999" stroke-width="2" fill="none"/>
-        <circle id="pull-knob" cx="60" cy="200" r="5" fill="#ccc"/>
+        <circle id="pull-knob" cx="60" cy="200" r="30" fill="#ccc" style="touch-action: manipulation; cursor: pointer;"/>
       </g>
     </svg>
     <p id="pull-instruction" class="text-white text-sm absolute mt-60">Pull to begin</p>
@@ -149,8 +149,6 @@
     function startDrag(y) {
       isDragging = true;
       startY = y;
-      drag(y + 50); // allow instant short swipe
-      endDrag();
     }
 
     function drag(y) {
@@ -163,7 +161,7 @@
     function endDrag() {
       if (!isDragging) return;
       isDragging = false;
-      if (dragY > 20) {
+      if (dragY > 2) {
         bulbSVG.classList.add('lit');
         setTimeout(() => {
           intro.classList.add('fade-out');
