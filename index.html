@@ -145,7 +145,7 @@
 
     function drag(y) {
       if (!isDragging) return;
-      dragY = Math.min(Math.max(y - startY, 0), 80);
+      dragY = Math.min(Math.max(y - startY, 0), 120);
       document.getElementById('pull-string').setAttribute('d', `M60 125 Q60 ${160 + dragY / 2} 60 ${200 + dragY}`);
       knob.setAttribute('cy', 200 + dragY);
     }
@@ -153,10 +153,12 @@
     function endDrag() {
       if (!isDragging) return;
       isDragging = false;
-      if (dragY > 40) {
+      if (dragY > 20) {
         bulbSVG.classList.add('lit');
-        intro.classList.add('fade-out');
-        document.body.style.overflow = 'auto';
+        setTimeout(() => {
+          intro.classList.add('fade-out');
+          document.body.style.overflow = 'auto';
+        }, 800);
       } else {
         document.getElementById('pull-string').setAttribute('d', `M60 125 Q60 160 60 200`);
         knob.setAttribute('cy', 200);
