@@ -28,6 +28,13 @@
     #intro-screen.fade-out ~ #main-content {
       display: block;
     }
+    #pull-instruction {
+      opacity: 0;
+      transition: opacity 1s ease-in;
+    }
+    #pull-instruction.show {
+      opacity: 1;
+    }
     @keyframes bounce {
       0% { transform: translateY(-8px); }
       30% { transform: translateY(5px); }
@@ -82,7 +89,7 @@
         <circle id="pull-knob" cx="60" cy="200" r="5" fill="#ccc"/>
       </g>
     </svg>
-    <p class="text-white text-sm absolute mt-60">Pull to begin</p>
+    <p id="pull-instruction" class="text-white text-sm absolute mt-60">Pull to begin</p>
   </div>
 
   <main id="main-content" class="overflow-auto">
@@ -133,6 +140,7 @@
     const intro = document.getElementById('intro-screen');
     const glow = document.getElementById('glow-circle');
     const bulbSVG = document.getElementById('bulb-svg');
+    const pullInstruction = document.getElementById('pull-instruction');
 
     let isDragging = false;
     let startY = 0;
@@ -141,6 +149,8 @@
     function startDrag(y) {
       isDragging = true;
       startY = y;
+      drag(y + 50); // allow instant short swipe
+      endDrag();
     }
 
     function drag(y) {
@@ -172,6 +182,11 @@
     knob.addEventListener('touchstart', e => startDrag(e.touches[0].clientY));
     window.addEventListener('touchmove', e => drag(e.touches[0].clientY));
     window.addEventListener('touchend', endDrag);
+
+    // Fade in the instruction after 3 seconds
+    setTimeout(() => {
+      pullInstruction.classList.add('show');
+    }, 3000);
   </script>
 </body>
 </html>
