@@ -85,9 +85,10 @@
         <rect x="50" y="100" width="20" height="25" rx="3" fill="#666"/>
       </g>
       <g id="string-group" class="swing" transform="rotate(0 60 125)">
-        <path id="pull-string" d="M60 125 Q60 160 60 200" stroke="#999" stroke-width="2" fill="none"/>
-        <circle id="pull-knob" cx="60" cy="200" r="8" fill="#ccc" style="cursor: pointer;"/>
-      </g>
+  <path id="pull-string" d="M60 125 Q60 160 60 200" stroke="#999" stroke-width="2" fill="none"/>
+  <circle id="pull-knob" cx="60" cy="200" r="8" fill="#ccc" style="cursor: pointer;"/>
+  <circle id="pull-zone" cx="60" cy="200" r="30" fill="transparent" style="cursor: grab;"/>
+</g>
     </svg>
     <p id="pull-instruction" class="text-white text-sm absolute mt-60">Pull to begin</p>
   </div>
@@ -101,8 +102,7 @@
     <section class="p-6 max-w-3xl mx-auto">
       <h2 class="text-2xl font-semibold mb-2">About Me</h2>
       <p class="text-gray-300">
-        I'm a data analyst, creative technologist, and builder of tools that do the work for you. This site is where I explore side projects and build unconventional ideas — often with a touch of AI.
-
+        I'm a data analyst, creative technologist, and builder of tools that do the work for you. This site is my playground for projects, experiments, and weird ideas — some of them powered by AI.
       </p>
     </section>
 
@@ -167,7 +167,7 @@
         bulbSVG.classList.add('lit');
         setTimeout(() => {
           intro.classList.add('fade-out');
-        document.getElementById('main-content').style.display = 'block';
+        setTimeout(() => document.getElementById('main-content').style.display = 'block', 300);
         document.body.style.overflow = 'auto';
         }, 800);
       } else {
@@ -176,11 +176,11 @@
       }
     }
 
-    knob.addEventListener('mousedown', e => startDrag(e.clientY));
+    document.getElementById('pull-zone').addEventListener('mousedown', e => startDrag(e.clientY));
     window.addEventListener('mousemove', e => drag(e.clientY));
     window.addEventListener('mouseup', endDrag);
 
-    knob.addEventListener('touchstart', e => startDrag(e.touches[0].clientY));
+    document.getElementById('pull-zone').addEventListener('touchstart', e => startDrag(e.touches[0].clientY));
     window.addEventListener('touchmove', e => drag(e.touches[0].clientY));
     window.addEventListener('touchend', endDrag);
 
