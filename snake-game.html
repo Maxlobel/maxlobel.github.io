@@ -9,12 +9,31 @@
       display: block;
       margin: 2em auto;
     }
+    .controls {
+      text-align: center;
+      margin-top: 1em;
+    }
+    .controls button {
+      font-size: 1.5em;
+      padding: 0.5em 1em;
+      margin: 0.2em;
+    }
   </style>
 </head>
 <body>
-  <canvas width="400" height="400" id="game">$1
-  <div style="text-align: center; margin-top: 1em;">
+  <canvas width="400" height="400" id="game"></canvas>
+  <div class="controls">
     <a href="index.html" style="color: white; text-decoration: underline; font-family: sans-serif;">← Back to Homepage</a>
+  </div>
+  <div class="controls">
+    <div>
+      <button onclick="move('up')">⬆️</button>
+    </div>
+    <div>
+      <button onclick="move('left')">⬅️</button>
+      <button onclick="move('down')">⬇️</button>
+      <button onclick="move('right')">➡️</button>
+    </div>
   </div>
   <script>
     const canvas = document.getElementById("game");
@@ -82,20 +101,27 @@
       });
     }
 
-    document.addEventListener("keydown", e => {
-      if (e.key === "ArrowLeft" && snake.dx === 0) {
+    function move(direction) {
+      if (direction === 'left' && snake.dx === 0) {
         snake.dx = -grid;
         snake.dy = 0;
-      } else if (e.key === "ArrowUp" && snake.dy === 0) {
+      } else if (direction === 'up' && snake.dy === 0) {
         snake.dy = -grid;
         snake.dx = 0;
-      } else if (e.key === "ArrowRight" && snake.dx === 0) {
+      } else if (direction === 'right' && snake.dx === 0) {
         snake.dx = grid;
         snake.dy = 0;
-      } else if (e.key === "ArrowDown" && snake.dy === 0) {
+      } else if (direction === 'down' && snake.dy === 0) {
         snake.dy = grid;
         snake.dx = 0;
       }
+    }
+
+    document.addEventListener("keydown", e => {
+      if (e.key === "ArrowLeft") move("left");
+      else if (e.key === "ArrowUp") move("up");
+      else if (e.key === "ArrowRight") move("right");
+      else if (e.key === "ArrowDown") move("down");
     });
 
     requestAnimationFrame(loop);
