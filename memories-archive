@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Family Memories Archive</title>
+  <style>
+    body {
+      background: #f9f9f9;
+      font-family: sans-serif;
+      text-align: center;
+      padding: 2em;
+    }
+    .hidden-content {
+      display: none;
+      margin-top: 2em;
+    }
+    input[type="password"] {
+      padding: 0.5em;
+      font-size: 1em;
+    }
+    button {
+      padding: 0.5em 1em;
+      font-size: 1em;
+      margin-left: 0.5em;
+    }
+    .back-link {
+      display: block;
+      margin-top: 2em;
+      color: #007BFF;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Family Memories Archive</h1>
+  <p>Please enter the password to access the archive:</p>
+  <input type="password" id="password" placeholder="Enter password">
+  <button onclick="checkPassword()">Submit</button>
+
+  <div class="hidden-content" id="archive">
+    <h2>Welcome to the Archive</h2>
+    <p>Here you'll find photos, stories, and videos capturing the history of our family.</p>
+    <!-- You can embed media, photo galleries, or links here -->
+  </div>
+
+  <a href="index.html" class="back-link">← Back to Homepage</a>
+
+  <script>
+    function checkPassword() {
+      const passwordInput = document.getElementById('password');
+      const archive = document.getElementById('archive');
+      const correctPassword = "memories2024"; // change to your actual password
+
+      if (passwordInput.value === correctPassword) {
+        archive.style.display = 'block';
+        passwordInput.style.display = 'none';
+        document.querySelector('button').style.display = 'none';
+      } else {
+        alert("Incorrect password. Please try again.");
+      }
+    }
+  </script>
+</body>
+</html>
