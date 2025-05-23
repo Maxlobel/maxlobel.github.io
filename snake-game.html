@@ -3,29 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <title>Snake Game</title>
-  <style>
-    canvas {
-      background: #000;
-      display: block;
-      margin: 2em auto;
+  <style>$1
+    .mobile-buttons {
+      display: none;
     }
-    .controls {
-      text-align: center;
-      margin-top: 1em;
+    @media (max-width: 768px) {
+      .controls button {
+        font-size: 2em;
+        padding: 1em;
+        margin: 0.5em;
+      }
+      .mobile-buttons {
+        display: block;
+      }
     }
-    .controls button {
-      font-size: 1.5em;
-      padding: 0.5em 1em;
-      margin: 0.2em;
-    }
-  </style>
+
 </head>
 <body>
   <canvas width="400" height="400" id="game"></canvas>
   <div class="controls">
     <a href="index.html" style="color: white; text-decoration: underline; font-family: sans-serif;">← Back to Homepage</a>
   </div>
-  <div class="controls">
+  <div class="controls mobile-buttons">
     <div>
       <button onclick="move('up')">⬆️</button>
     </div>
