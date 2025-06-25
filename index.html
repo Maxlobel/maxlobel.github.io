@@ -24,9 +24,7 @@
     }
     #main-content {
       display: none;
-    }
-    #intro-screen.fade-out ~ #main-content {
-      display: block;
+      
     }
     #pull-instruction {
       opacity: 0;
@@ -184,7 +182,14 @@
         bulbSVG.classList.add('lit');
         setTimeout(() => {
           intro.classList.add('fade-out');
-          setTimeout(() => document.getElementById('main-content').style.display = 'block', 300);
+          setTimeout(() => {
+  intro.style.display = 'none';
+  const main = document.getElementById('main-content');
+  main.style.display = 'block';
+  main.style.backgroundColor = '#0f172a'; // match intro background
+  document.body.style.overflow = 'auto';
+}, 1000);
+
           document.body.style.overflow = 'auto';
         }, 800);
       } else {
